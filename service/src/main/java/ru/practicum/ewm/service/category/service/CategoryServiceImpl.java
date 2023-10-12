@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.service.category.dto.CategoryDto;
 import ru.practicum.ewm.service.category.model.Category;
 import ru.practicum.ewm.service.category.repository.CategoryRepository;
+import ru.practicum.ewm.service.event.repository.EventRepository;
+import ru.practicum.ewm.service.exception.ConflictException;
 import ru.practicum.ewm.service.exception.NotFoundException;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import static ru.practicum.ewm.service.category.mapper.CategoryMapper.CATEGORY_M
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
+    private final EventRepository eventRepository;
 
     @Override
     public CategoryDto create(CategoryDto dto) {
@@ -53,6 +56,9 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long catId) {
         if (!categoryRepository.existsById(catId)) {
             throw new NotFoundException("Category id=" + catId + " not found.");
+        }
+        if (!eventRepository.findAllByCategoryId(catId).isEmpty()) {
+            throw new ConflictException("Category with id =" + catId + " is not empty");
         }
         categoryRepository.deleteById(catId);
     }
