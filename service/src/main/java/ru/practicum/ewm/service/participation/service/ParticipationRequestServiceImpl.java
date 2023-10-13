@@ -37,7 +37,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
         if (event.getInitiator().getId().equals(userId)) {
             throw new ConflictException("The event initiator cannot apply to participate in his own event.");
         }
-        if (!event.getState().equals(PUBLISHED)) {
+        if (event.getState() != PUBLISHED) {
             throw new ConflictException("Unable to participate in an unpublished event.");
         }
         if (event.getParticipantLimit() > 0 && (event.getParticipantLimit() <= participationRequestRepository
@@ -73,7 +73,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
         if (!request.getRequester().getId().equals(userId)) {
             throw new NotFoundException("Request id=" + requestId + " not found.");
         }
-        if (request.getStatus().equals(CONFIRMED)) {
+        if (request.getStatus() == CONFIRMED) {
             throw new ConflictException("Unable to cancel confirmed request.");
         }
         request.setStatus(CANCELED);

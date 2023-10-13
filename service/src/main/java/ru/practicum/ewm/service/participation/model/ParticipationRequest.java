@@ -19,7 +19,7 @@ public class ParticipationRequest {
     @Column(name = "participation_request_id")
     private Long id;
 
-    @Column(name = "participation_request_created")
+    @Column(name = "participation_request_created", nullable = false)
     private LocalDateTime created;
 
     @ManyToOne
@@ -31,7 +31,7 @@ public class ParticipationRequest {
     private User requester;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "participation_request_status")
+    @Column(name = "participation_request_status", nullable = false, length = 16)
     private ParticipationRequestStatus status;
 }
 
