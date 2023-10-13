@@ -1,19 +1,19 @@
 package ru.practicum.ewm.service.compilation.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import ru.practicum.ewm.service.compilation.dto.CompilationDto;
 import ru.practicum.ewm.service.compilation.dto.NewCompilationDto;
 import ru.practicum.ewm.service.compilation.dto.UpdateCompilationRequest;
 import ru.practicum.ewm.service.compilation.model.Compilation;
 import ru.practicum.ewm.service.compilation.repository.CompilationRepository;
-import ru.practicum.ewm.service.exception.NotFoundException;
 import ru.practicum.ewm.service.event.model.Event;
 import ru.practicum.ewm.service.event.repository.EventRepository;
+import ru.practicum.ewm.service.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import static ru.practicum.ewm.service.compilation.mapper.CompilationMapper.COMPILATION_MAPPER;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CompilationServiceImpl implements CompilationService {
@@ -32,7 +31,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     @Override
     public CompilationDto create(NewCompilationDto dto) {
-        List<Event> events = dto.getEvents() != null && !dto.getEvents().isEmpty() ?
+        List<Event> events = !CollectionUtils.isEmpty(dto.getEvents()) ?
                 eventRepository.findAllById(dto.getEvents()) : new ArrayList<>();
         if (dto.getPinned() == null) {
             dto.setPinned(false);

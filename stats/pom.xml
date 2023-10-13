@@ -11,7 +11,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stats</artifactId>
+    <artifactId>ewm-stats-service</artifactId>
     <packaging>pom</packaging>
 
     <modules>

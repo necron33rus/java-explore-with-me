@@ -19,7 +19,7 @@ public class Event {
     @Column(name = "event_id")
     private Long id;
 
-    @Column(name = "event_annotation", nullable = false)
+    @Column(name = "event_annotation", nullable = false, length = 2048)
     private String annotation;
 
     @ManyToOne
@@ -32,7 +32,7 @@ public class Event {
     @Column(name = "event_created_on")
     private LocalDateTime createdOn;
 
-    @Column(name = "event_description", nullable = false)
+    @Column(name = "event_description", nullable = false, length = 8192)
     private String description;
 
     @Column(name = "event_event_date", nullable = false)
@@ -59,9 +59,9 @@ public class Event {
     private Boolean requestModeration;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "event_state", nullable = false)
+    @Column(name = "event_state", nullable = false, length = 16)
     private EventState state;
 
-    @Column(name = "event_title", nullable = false)
+    @Column(name = "event_title", nullable = false, length = 128)
     private String title;
 }

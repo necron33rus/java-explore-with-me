@@ -113,8 +113,8 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             throw new ConflictException("The date and time for which the event is scheduled cannot be earlier than " +
                     "two hours from the current moment.");
         }
-        if (!(event.getState().equals(CANCELED) ||
-                event.getState().equals(PENDING))) {
+        if (!(event.getState() == CANCELED ||
+                event.getState() == PENDING)) {
             throw new ConflictException("Only pending or canceled events can be changed");
         }
         if (updateEventUserRequest.getCategory() != null) {
@@ -182,7 +182,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
                 .build();
 
         for (ParticipationRequest request : requestList) {
-            if (!request.getStatus().equals(ParticipationRequestStatus.PENDING)) {
+            if (request.getStatus() != ParticipationRequestStatus.PENDING) {
                 throw new ConflictException("Unable to accept/reject request that not is in pending state.");
             }
             if (!request.getEvent().getId().equals(eventId)) {

@@ -111,7 +111,7 @@ public class EventPublicServiceImpl implements EventPublicService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event id=" + eventId + " not found."));
 
-        if (!event.getState().equals(PUBLISHED)) {
+        if (event.getState() != PUBLISHED) {
             throw new NotFoundException("Event id=" + eventId + " is not published.");
         }
 

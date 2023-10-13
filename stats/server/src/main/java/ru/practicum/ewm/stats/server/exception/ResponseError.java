@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 
 @Getter
-
 public class ResponseError {
 
     private final HttpStatus status;

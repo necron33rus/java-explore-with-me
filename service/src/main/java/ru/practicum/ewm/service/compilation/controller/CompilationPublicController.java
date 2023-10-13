@@ -7,7 +7,6 @@ import ru.practicum.ewm.service.compilation.dto.CompilationDto;
 import ru.practicum.ewm.service.compilation.service.CompilationService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @Slf4j
@@ -19,9 +18,9 @@ public class CompilationPublicController {
 
     @GetMapping
     public List<CompilationDto> getAll(@RequestParam(required = false) Boolean pinned,
-                                       @Valid @RequestParam(required = false, defaultValue = "0") @Min(0) int from,
-                                       @Valid @RequestParam(required = false, defaultValue = "10") @Min(1) int size) {
-        log.info("Поступил запрос на получение подборок событий.");
+                                       @Valid @RequestParam(required = false, defaultValue = "0") int from,
+                                       @Valid @RequestParam(required = false, defaultValue = "10") int size) {
+        log.info("Поступил запрос на получение подборок событий со следующими параметрами: Начиная с {} страницы получить {} значений, для которых закрепление = {}", from, size, pinned);
         return compilationService.getAll(pinned, from, size);
     }
 

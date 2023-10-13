@@ -27,6 +27,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.practicum.ewm.service.constant.DateTimeFormat.DATETIME_FORMAT;
+import static ru.practicum.ewm.service.constant.EventState.PENDING;
+import static ru.practicum.ewm.service.constant.EventState.PUBLISHED;
 import static ru.practicum.ewm.service.constant.ParticipationRequestStatus.CONFIRMED;
 import static ru.practicum.ewm.service.constant.StateActionAdmin.PUBLISH_EVENT;
 import static ru.practicum.ewm.service.constant.StateActionAdmin.REJECT_EVENT;
@@ -89,13 +91,13 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
 
         if (updateEventAdminRequest.getStateAction() != null) {
-            if (updateEventAdminRequest.getStateAction().equals(PUBLISH_EVENT)
-                    && !event.getState().equals(EventState.PENDING)) {
+            if (updateEventAdminRequest.getStateAction() == PUBLISH_EVENT
+                    && event.getState() != PENDING) {
                 throw new ConflictException(
                         "The event cannot be published because it is in the wrong state: " + event.getState());
             }
-            if (updateEventAdminRequest.getStateAction().equals(REJECT_EVENT) &&
-                    event.getState().equals(EventState.PUBLISHED)) {
+            if (updateEventAdminRequest.getStateAction() == REJECT_EVENT &&
+                    event.getState() == PUBLISHED) {
                 throw new ConflictException(
                         "The event cannot be rejected because it is in the wrong state: " + event.getState());
             }
@@ -121,7 +123,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         if (updateEventAdminRequest.getStateAction() != null) {
             switch (updateEventAdminRequest.getStateAction()) {
                 case PUBLISH_EVENT:
-                    event.setState(EventState.PUBLISHED);
+                    event.setState(PUBLISHED);
                     event.setPublishedOn(LocalDateTime.now());
                     break;
                 case REJECT_EVENT:

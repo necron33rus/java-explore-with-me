@@ -17,10 +17,10 @@ public class Compilation {
     @Column(name = "compilation_id")
     private Long id;
 
-    @Column(name = "compilation_title")
+    @Column(name = "compilation_title", nullable = false, length = 64)
     private String title;
 
-    @Column(name = "compilation_pinned")
+    @Column(name = "compilation_pinned", nullable = false)
     private Boolean pinned;
 
     @ManyToMany

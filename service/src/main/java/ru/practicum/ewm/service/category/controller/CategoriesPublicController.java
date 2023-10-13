@@ -7,7 +7,6 @@ import ru.practicum.ewm.service.category.dto.CategoryDto;
 import ru.practicum.ewm.service.category.service.CategoryService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @Slf4j
@@ -19,9 +18,9 @@ public class CategoriesPublicController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryDto> getAll(@Valid @RequestParam(defaultValue = "0") @Min(0) int from,
-                                    @Valid @RequestParam(defaultValue = "10") @Min(1) int size) {
-        log.info("Поступил запрос на получение списка категорий.");
+    public List<CategoryDto> getAll(@Valid @RequestParam(defaultValue = "0") int from,
+                                    @Valid @RequestParam(defaultValue = "10") int size) {
+        log.info("Поступил запрос на получение списка категорий с следующими параметрами: начиная с {} страницы получить {} значений", from, size);
         return categoryService.getAll(from, size);
     }
 

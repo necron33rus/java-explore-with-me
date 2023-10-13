@@ -33,13 +33,7 @@ public class StatsServiceImpl implements StatsService {
             throw new BadRequestException("Start/End date is not present, " +
                     "or start date is before end date. start=" + start + ", end=" + end);
         }
-        List<ViewStatsProjection> stats;
-
-        if (BooleanUtils.isTrue(unique)) {
-            stats = endpointHitRepository.findUniqueStats(start, end, uris);
-        } else {
-            stats = endpointHitRepository.findNotUniqueStats(start, end, uris);
-        }
+        List<ViewStatsProjection> stats = BooleanUtils.isTrue(unique) ? endpointHitRepository.findUniqueStats(start, end, uris) : endpointHitRepository.findNotUniqueStats(start, end, uris);
 
         return stats.stream()
                 .map(result -> ViewStatsDto.builder()
