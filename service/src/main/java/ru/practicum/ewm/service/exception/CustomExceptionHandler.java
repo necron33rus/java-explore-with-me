@@ -14,6 +14,17 @@ import java.time.LocalDateTime;
 public class CustomExceptionHandler {
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ApiError handleForbiddenError(final ForbiddenException e) {
+        return ApiError.builder()
+                .status(HttpStatus.FORBIDDEN)
+                .reason("You don't have permission to access this option.")
+                .message(e.getMessage())
+                .errorTimestamp(LocalDateTime.now())
+                .build();
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleBadRequestException(final BadRequestException e) {
         return ApiError.builder()
